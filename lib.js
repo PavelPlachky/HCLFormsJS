@@ -1,5 +1,5 @@
 // Function to test library
-function hclFormsJS_helloWorld{) {
+function hclFormsJS_helloWorld() {
   console.log("Hello World 1.0");
 }
 
