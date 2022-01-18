@@ -147,11 +147,11 @@ Usage on PathFactory
 HclFormsJS.extend( 
   {
     pathFactoryParams:{
-      pfExternalId:{{experience.external_id}},
-      pfTrackName:{{experience.name}},
-      pfUTMMedium:{{query.utm_medium}},
-      pfUTMSource:{{query.utm_source}},
-      pfUTMCampaign:{{query.utm_campaign}},
+      pfExternalId:"{{experience.external_id}}",
+      pfTrackName:"{{experience.name}}",
+      pfUTMMedium:"{{query.utm_medium}}",
+      pfUTMSource:"{{query.utm_source}}",
+      pfUTMCampaign:"{{query.utm_campaign}}",
     },
   });
 </script>
