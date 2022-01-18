@@ -1,4 +1,4 @@
-# HclFormsJS
+# HCLFormsJS
 Enhancements for MS Dynamics Marketing Forms @HCL
 All source code is in the file lib.js
 
@@ -8,7 +8,7 @@ Load the library from GitHub through jsdelivr
 * lib.js - original file
 * lib.min.js - automatically minimized file
 
-Call the function HclFormsJS.extend(options) with options as described below
+Call the function HCLFormsJS.extend(options) with options as described below
 
 ## Properties of the options parameter:
 The options parameter is a JavaScript object with the following properties
@@ -31,18 +31,23 @@ Default value: false
 When set to true, sets the hidden field Product Group to a value inferred from URL, soemtimes based on the URL, sometimes based only on the Path. The comparison is case insensitive.
 
 ##### Product Pages (URL starts with ...)
-* https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation	HCL ANA Platform
-* https://www.hclindustrysaas.com/telecom-5g/nfv-acceleration	HCL NFV Acceleration
-* https://www.hclindustrysaas.com/telecom-5g/iCEX-DeviceMgmt	HCL iCE.X
-* https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation/sonflex	HCL ANA Platform
-* https://www.hclindustrysaas.com/telecom-5g/x-haul-wireless-modem-ip	HCL X-Haul
-* https://www.hclindustrysaas.com/enterprise-cloud-ai	HCL IntelliService
-* https://www.hclindustrysaas.com/telecom-5g/hcl-smartwifi	HCL SMARTWiFi
-* https://dfmpro.com/	HCL DFMPro
-* https://www.glovius.com/	HCL Glovius
-* https://camworks.com/nestingworks/	HCL NestingWorks
-* https://camworks.com/	HCL CAMWorks
-* https://geomcaliper.geometricglobal.com/	HCL GeomCaliper
+* https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation	---> HCL ANA Platform
+* https://www.hclindustrysaas.com/telecom-5g/nfv-acceleration	---> HCL NFV Acceleration
+* https://www.hclindustrysaas.com/telecom-5g/iCEX-DeviceMgmt	---> HCL iCE.X
+* https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation/sonflex	---> HCL ANA Platform
+* https://www.hclindustrysaas.com/telecom-5g/x-haul-wireless-modem-ip	---> HCL X-Haul
+* https://www.hclindustrysaas.com/enterprise-cloud-ai	---> HCL IntelliService
+* https://www.hclindustrysaas.com/telecom-5g/hcl-smartwifi	---> HCL SMARTWiFi
+* https://www.hclindustrysaas.com/smartwifi	---> HCL SMARTWiFi
+* https://www.hclindustrysaas.com/augmented-network-automation ---> HCL ANA Platform
+* https://www.hclindustrysaas.com/nfv-acceleration ---> HCL NFV Acceleration
+* https://www.hclindustrysaas.com/iCEX-DeviceMgmt	---> HCL iCE.X
+* https://www.hclindustrysaas.com/x-haul-wireless-modem-ip ---> HCL X-Haul
+* https://dfmpro.com/	---> HCL DFMPro
+* https://www.glovius.com/ ---> HCL Glovius
+* https://camworks.com/nestingworks/ ---> HCL NestingWorks
+* https://camworks.com/	---> HCL CAMWorks
+* https://geomcaliper.geometricglobal.com/ ---> HCL GeomCaliper
 
 ##### D356 Pages (Path starts with ...) 
 * /DFMPro	--->	HCL DFMPro
@@ -118,7 +123,7 @@ Usage on product pages or D365 pages
 
 <!-- Use Library -->
 <script>
-HclFormsJS.extend( 
+HCLFormsJS.extend( 
   {
     validateEmail:true,
     disableReloadButton:true,
@@ -144,7 +149,7 @@ Usage on PathFactory
 
 <!-- Use Library -->
 <script>
-HclFormsJS.extend( 
+HCLFormsJS.extend( 
   {
     pathFactoryParams:{
       pfExternalId:"{{experience.external_id}}",
