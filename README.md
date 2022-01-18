@@ -4,18 +4,31 @@ All source code is in the file lib.js
 
 ## Usage:
 Load the library from GitHub through jsdelivr
+
 * lib.js - original file
 * lib.min.js - automatically minimized file
 
-## Functions:
-### addEmailValidation()
-Verifies that the submitted email address is not invalid and that it is not from a free email provider. If it is, it displays (unhides) an element with an attribute error-message-for="email" and prevents submission of the form. If no such element exists, the function has no effect.
+Call the function HclFormsJS.extend(options) with options as described below
 
-### disableReloadButton()
-Hides a "Reload" button after a successful form submission
+## Properties of the options parameter:
+The options parameter is a JavaScript object with the following properties
 
-### setProductGroupFromURL()
-Sets the hidden field Product Group to a value inferred from URL, soemtimes based on the URL, sometimes based only on the Path. The function is case insensitive.
+
+
+### validateEmail
+Default value: false
+
+When set to true, it verifies the submitted email address is not invalid and that it is not from a free email provider. If it is, it displays (unhides) an element with an attribute error-message-for="email" and prevents submission of the form. If no such element exists, the function has no effect.
+
+### disableReloadButton
+Default value: false
+
+When set to true, hides a "Reload" button after a successful form submission
+
+### setProductGroupFromURL
+Default value: false
+
+When set to true, sets the hidden field Product Group to a value inferred from URL, soemtimes based on the URL, sometimes based only on the Path. The comparison is case insensitive.
 
 ##### Product Pages (URL starts with ...)
 * https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation	HCL ANA Platform
@@ -44,17 +57,102 @@ Sets the hidden field Product Group to a value inferred from URL, soemtimes base
 * /IntelliService	--->	HCL IntelliService
 * /SMARTWiFi	--->	HCL SMARTWiFi
 
-### setUTMParameters()
-Sets hidden fields utmSource, utmMedium and utmCampaign from URL querystring parameters utm_source, utm_medium and utm_campaign
+### setUTMParamsFromURL
+Default value: false
 
-## Example
+When set to true, sets hidden fields utmSource, utmMedium and utmCampaign from URL querystring parameters utm_source, utm_medium and utm_campaign. Note that for PathFactory the UTM parameters are set using the PathFactory variables instead - see the pathFactoryParams option below.
+
+### pathFactoryParams
+Default value: none
+
+An embedded JavaScript object that contains values provided by PathFactory when the form is embedded on PathFactory pages. When this option is present, it will trigger a PathFactory specific processing as follows:
+* Map External ID (part 1) to Product Group Field as follows
+  - DFMPro ---> HCL DFMPro
+  - Glovius ---> HCL Glovius
+  - CAM ---> HCL CAMWorks
+  - nest ---> HCL NestingWorks
+  - caliper ---> HCL GeomCaliper
+  - ANA ---> HCL ANA Platform
+  - NFV ---> HCL NFV Acceleration
+  - icex ---> CL iCE.X
+  - xhaul ---> HCL X-Haul
+  - iTS ---> HCL IntelliService
+  - wifi ---> HCL SMARTWiFi
+* Send conversion event to Google Tag Manager, label is second part of External ID
+* Invoke LinkedIn tracking pixel, conversion ID is 3rd part of External ID
+* Set PathFactory Track Name to PF Track Name field
+* Set UTM parameters
+* Post message to parent, which closes the form
+
+The pathFactoryParams property is a JavaScript object with the following properties
+
+##### pfExternalId
+The external ID, accessed through {{experience.external_id}}. It contains three segments separated by a vertical pipe (|) character.
+##### pfTrackName
+Pathfactory track name, accessed through {{experience.name}}
+##### pfUTMMedium
+UTM parameter medium, accessed through {{query.utm_medium}}
+##### pfUTMSource
+UTM parameter source accessed through {{query.utm_source}}
+##### pfUTMCampaign
+UTM parameter campaign, accessed through {{query.utm_campaign}}
+
+Note that since the forms are loaded on PathFactory using an Iframe, it is necessary to load the global site tag (gtag.js) - Google Ads: 474961795 separately using the following code:
+```
+<!-- Global site tag (gtag.js) - Google Ads: 474961795 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-474961795"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-474961795');
+</script>
+```
+
+## Examples
+Usage on product pages or D365 pages
 ```
 <!-- Load version 1.0.0 of the library through JSDeliver -->
 <script src="https://cdn.jsdelivr.net/gh/PavelPlachky/hclFormsJS@v1.0.0/lib.min.js"></script>
 
 <!-- Use Library -->
 <script>
-// Prevents submission of free and obviously bogus email addresses
-HclFormsJS.addEmailValidation();
+HclFormsJS.extend( 
+  {
+    validateEmail:true,
+    disableReloadButton:true,
+    setProductGroupFromURL:true,
+    setUTMParamsFromURL:true,
+  });
+</script>
+```
+
+Usage on PathFactory
+```
+<!-- Global site tag (gtag.js) - Google Ads: 474961795 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-474961795"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-474961795');
+</script>
+<!-- Load version 1.0.0 of the library through JSDeliver -->
+<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/hclFormsJS@v1.0.0/lib.min.js"></script>
+
+<!-- Use Library -->
+<script>
+HclFormsJS.extend( 
+  {
+    pathFactoryParams:{
+      pfExternalId:{{experience.external_id}},
+      pfTrackName:{{experience.name}},
+      pfUTMMedium:{{query.utm_medium}},
+      pfUTMSource:{{query.utm_source}},
+      pfUTMCampaign:{{query.utm_campaign}},
+    },
+  });
 </script>
 ```
