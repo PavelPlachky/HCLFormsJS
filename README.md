@@ -119,7 +119,7 @@ Note that since the forms are loaded on PathFactory using an Iframe, it is neces
 Usage on product pages or D365 pages
 ```
 <!-- Load version 1.0.0 of the library through JSDeliver -->
-<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/hclFormsJS@v1.0.0/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/HCLFormsJS@v1.0.0/lib.min.js"></script>
 
 <!-- Use Library -->
 <script>
@@ -145,7 +145,7 @@ Usage on PathFactory
   gtag('config', 'AW-474961795');
 </script>
 <!-- Load version 1.0.0 of the library through JSDeliver -->
-<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/hclFormsJS@v1.0.0/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/HCLFormsJS@v1.0.0/lib.min.js"></script>
 
 <!-- Use Library -->
 <script>
