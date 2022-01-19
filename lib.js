@@ -1,5 +1,5 @@
 
-var HclFormsJS = (function(){
+var HCLFormsJS = (function(){
   let hclFormsJsMethods = {};
   
   // Validates email format. Returns true if valid.
@@ -38,108 +38,6 @@ var HclFormsJS = (function(){
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
-
-
-/*   hclFormsJsMethods.addEmailValidation = function () {
-    MsCrmMkt.MsCrmFormLoader.on('formSubmit', function(event) {
-      // check if email is ok
-      var messageEl = document.querySelector('[error-message-for="email"]');
-      if( messageEl ) {
-        messageEl.style.display = 'none';
-        var email = document.getElementById('7f685ebb-7c54-4cff-a1bc-772562d25c38').value;
-        if (!validateEmailSyntax(email) || isBigProviderEmail(email) || isGenericEmail(email)) {
-          messageEl.style.display = 'block';
-          event.preventDefault();
-        }
-      }
-    })
-  }
-
-  // hides the reload button after form submission
-  hclFormsJsMethods.disableReloadButton = function () {
-    let css = 'button.onFormSubmittedFeedbackButtonSuccess { display: none !important; }',
-        head = document.head || document.getElementsByTagName('head')[0],
-        style = document.createElement('style');
-
-    head.appendChild(style);
-
-    if (style.styleSheet){
-      // This is required for IE8 and below.
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }     
-  }
-
-  // Sets product group based on URL
-  hclFormsJsMethods.setProductGroupFromURL = function () {
-    MsCrmMkt.MsCrmFormLoader.on("afterFormLoad", function(event) {
-      const lookup = {
-        "https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation":"HCL ANA Platform",
-        "https://www.hclindustrysaas.com/telecom-5g/nfv-acceleration":"HCL NFV Acceleration",
-        "https://www.hclindustrysaas.com/telecom-5g/iCEX-DeviceMgmt":"HCL iCE.X",
-        "https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation/sonflex":"HCL ANA Platform",
-        "https://www.hclindustrysaas.com/telecom-5g/x-haul-wireless-modem-ip":"HCL X-Haul",
-        "https://www.hclindustrysaas.com/enterprise-cloud-ai":"HCL IntelliService",
-        "https://www.hclindustrysaas.com/telecom-5g/hcl-smartwifi":"HCL SMARTWiFi",
-        "https://dfmpro.com/":"HCL DFMPro",
-        "https://www.glovius.com/":"HCL Glovius",
-        "https://camworks.com/nestingworks/":"HCL NestingWorks",
-        "https://camworks.com/":"HCL CAMWorks",
-        "https://geomcaliper.geometricglobal.com/":"HCL GeomCaliper",
-        "/DFMPro":"HCL DFMPro",
-        "/Glovius":"HCL Glovius",
-        "/CAMWorks":"HCL CAMWorks",
-        "/NestingWorks":"HCL NestingWorks",
-        "/GeomCaliper":"HCL GeomCaliper",
-        "/Augmented_Network_Automation":"HCL ANA Platform",
-        "/NFV_Acceleration":"HCL NFV Acceleration",
-        "/iCE.X":"HCL iCE.X",
-        "/X-Haul":"HCL X-Haul",
-        "/IntelliService":"HCL IntelliService",
-        "/SMARTWiFi":"HCL SMARTWiFi",
-      };
-      
-      let href = location.href;
-      let path = location.pathname;
-      if( path[0] != '/' ) { //IE Compatibility fix
-        path = '/' + path;
-      }
-      for(index in lookup) {
-        if( href.substring(0,index.length).toLowerCase() === index.toLowerCase() ||
-            path.substring(0,index.length).toLowerCase() === index.toLowerCase() ) {
-          let productGroupField = document.getElementById('e0de53e9-3007-ec11-94ef-00224826ae39');
-          if( productGroupField ) {
-             setSelectedIndex(productGroupField, lookup[index]);
-          }  
-          break;
-        }
-      }
-    });
-  };
-
-
-  // Sets hidden fields utmSource, utmMedium and utmCampaign from URL querystring parameters
-  hclFormsJsMethods.setUTMParameters = function () {
-    MsCrmMkt.MsCrmFormLoader.on("afterFormLoad", function(event) {
-      let utmSource = document.getElementById('19d56bd1-d543-ec11-8c62-00224829b74c'); // prod
-      if( utmSource ){
-        utmSource.value = getQSParameterByName("utm_source");
-      }
-
-      let utmMedium = document.getElementById('880b9de3-d543-ec11-8c62-00224829b74c'); // prod
-      if( utmMedium ){
-        utmMedium.value = getQSParameterByName("utm_medium");
-      }
-      
-      let utmCampaign = document.getElementById('6e5165ad-d543-ec11-8c62-00224829b74c'); // prod
-      if( utmCampaign ){
-        utmCampaign.value = getQSParameterByName("utm_campaign");
-      }
-    });    
-  };
-  
-*/
 
   hclFormsJsMethods.extend = function(options){
     
@@ -184,6 +82,11 @@ var HclFormsJS = (function(){
           "https://www.hclindustrysaas.com/telecom-5g/x-haul-wireless-modem-ip":"HCL X-Haul",
           "https://www.hclindustrysaas.com/enterprise-cloud-ai":"HCL IntelliService",
           "https://www.hclindustrysaas.com/telecom-5g/hcl-smartwifi":"HCL SMARTWiFi",
+          "https://www.hclindustrysaas.com/smartwifi":"HCL SMARTWiFi",
+          "https://www.hclindustrysaas.com/augmented-network-automation":"HCL ANA Platform",
+          "https://www.hclindustrysaas.com/nfv-acceleration":"HCL NFV Acceleration",
+          "https://www.hclindustrysaas.com/iCEX-DeviceMgmt":"HCL iCE.X",
+          "https://www.hclindustrysaas.com/x-haul-wireless-modem-ip":"HCL X-Haul",
           "https://dfmpro.com/":"HCL DFMPro",
           "https://www.glovius.com/":"HCL Glovius",
           "https://camworks.com/nestingworks/":"HCL NestingWorks",
