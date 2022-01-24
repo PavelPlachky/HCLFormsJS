@@ -39,6 +39,18 @@ var HCLFormsJS = (function(){
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
 
+  let isValidHttpUrl = function(string) {
+    let url;
+    
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;  
+    }
+
+    return url.protocol === "http:" || url.protocol === "https:";
+  }
+
   hclFormsJsMethods.extend = function(options){
     
     // set default options and paramenters
@@ -47,6 +59,8 @@ var HCLFormsJS = (function(){
     let disableReloadButton = options.disableReloadButton || false;
     let setProductGroupFromURL = options.setProductGroupFromURL || false;
     let setUTMParamsFromURL = options.setUTMParamsFromURL || false;
+    let appendEmailToRedirectURL = options.appendEmailToRedirectURL || false;
+    let setURLField = options.setURLField || false;
     let pathFactoryParams = options.pathFactoryParams || {};
     let pfExternalId = pathFactoryParams.pfExternalId || "";
     let pfTrackName = pathFactoryParams.pfTrackName || "";
@@ -140,6 +154,17 @@ var HCLFormsJS = (function(){
         }
       }
       
+      if( setURLField ) {
+
+          //search for string until ? or #
+          const re=/^[^\#\?]+/;
+          let url=re.exec(location.href)[0]
+          let urlField = document.getElementById('37e9882a-1422-ec11-b6e6-00224822e862'); // prod
+          if( urlField ){
+            urlField.value=url;
+          }
+      }
+      
       // Set values from PathFactory
       if( options.pathFactoryParams ){
           const pfIdLookup = {
@@ -191,7 +216,45 @@ var HCLFormsJS = (function(){
     }); // End after form load handlers
 
     // After form submit handlers
-    if( options.pathFactoryParams ){
+    // Redirect Processing - do not combine with PathFactory processing
+    if( appendEmailToRedirectURL ){
+      MsCrmMkt.MsCrmFormLoader.on("afterFormSubmit", function(event) {
+        
+        // Watch a success message with http(s) link to appear in the form area and redirect there with email address appended at the end
+        const mutationTarget = document.querySelectorAll("div[data-form-block-id]")[0];
+        const mutationOptions = {childList: true, subtree: true};
+        const emailAddr = document.querySelector('input[type="email"]').value;
+        const callback = function(mutationsList, observer) {
+           for(const mutation of mutationsList) {
+            if (mutation.type === 'childList' ) {
+              for( const node of mutation.addedNodes ) {
+                const nodeList = node.querySelectorAll("div.onFormSubmittedFeedbackMessage");
+                if( nodeList.length > 0 ){
+                  
+                  // found the message
+                  const redirectUrl = nodeList[0].innerText.trim();
+                  if( isValidHttpUrl(redirectUrl) ) {
+                    let lbLink = document.createElement("a");
+                    lbLink.href = redirectUrl;
+                    let newURL = redirectUrl + (lbLink.search ? "&" : "?") + "lb_email=" + emailAddr;
+                    window.location.href = newURL;
+                  }
+                }
+              }
+            }
+          }
+        };
+        
+        // Create an observer instance linked to the callback function
+        const observer = new MutationObserver(callback);
+
+        // Start observing the target node for configured mutations
+        observer.observe(mutationTarget, mutationOptions);
+      });       
+    }
+    
+    // PathFactory
+    else if( options.pathFactoryParams ){
       MsCrmMkt.MsCrmFormLoader.on("afterFormSubmit", function(event) {
         // function to load an image and invoke callback when ready
         let loadImage = function (src,callback = function(){return undefined;}) {
