@@ -18,17 +18,17 @@ The options parameter is a JavaScript object with the following properties
 ### validateEmail
 Default value: false
 
-When set to true, it verifies the submitted email address is not invalid and that it is not from a free email provider. If it is, it displays (unhides) an element with an attribute error-message-for="email" and prevents submission of the form. If no such element exists, the function has no effect.
+When this parameter is set to true, the extend function verifies the submitted email address is not invalid and that it is not from a free email provider. If it is, it displays (unhides) an element with an attribute error-message-for="email" and prevents submission of the form. If no such element exists, the function has no effect.
 
 ### disableReloadButton
 Default value: false
 
-When set to true, hides a "Reload" button after a successful form submission
+When this parameter is set to true, the extend function hides a "Reload" button after a successful form submission
 
 ### setProductGroupFromURL
 Default value: false
 
-When set to true, sets the hidden field Product Group to a value inferred from URL, soemtimes based on the URL, sometimes based only on the Path. The comparison is case insensitive.
+When this parameter is set to true, the extend function sets the hidden field Product Group to a value inferred from URL, soemtimes based on the URL, sometimes based only on the Path. The comparison is case insensitive.
 
 ##### Product Pages (URL starts with ...)
 * https://www.hclindustrysaas.com/telecom-5g/augmented-network-automation	---> HCL ANA Platform
@@ -65,7 +65,17 @@ When set to true, sets the hidden field Product Group to a value inferred from U
 ### setUTMParamsFromURL
 Default value: false
 
-When set to true, sets hidden fields utmSource, utmMedium and utmCampaign from URL querystring parameters utm_source, utm_medium and utm_campaign. Note that for PathFactory the UTM parameters are set using the PathFactory variables instead - see the pathFactoryParams option below.
+When this parameter is set to true, the extend function sets hidden fields utmSource, utmMedium and utmCampaign from URL querystring parameters utm_source, utm_medium and utm_campaign. Note that for PathFactory the UTM parameters are set using the PathFactory variables instead - see the pathFactoryParams option below.
+
+### appendEmailToRedirectURL
+Default value: false
+
+When this parameter is set to true, the extend function redirects the webpage after form submission to URL specified in the Success Notification field of a *Form page* that is hosting the form and appends a query string parameter *lb_email* with value of the submitted email address. 
+
+### setURLField
+Default value: false
+
+When this parameter is set to true, the extend function sets the hidden field *URL Field* to the current URL, except any querystring or anchor.
 
 ### pathFactoryParams
 Default value: none
@@ -116,10 +126,20 @@ Note that since the forms are loaded on PathFactory using an Iframe, it is neces
 ```
 
 ## Examples
-Usage on product pages or D365 pages
+### Use case 1: form contains the extension code.
+In this case the code library is added at the end of the form's HTML. When the form is embedded on D365 pages or on product pages all the extension functionality is included. In this case the HCLFormsJS library should not be included again on the landing page. The HTML code to add the library definition and call to the extend() function within the form HTML can look like this:
 ```
-<!-- Load version 1.0.0 of the library through JSDeliver -->
-<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/HCLFormsJS@v1.0.0/lib.min.js"></script>
+<script>
+/**
+ * Minified by jsDelivr using Terser v5.10.0.
+ * Original file: /gh/PavelPlachky/HCLFormsJS@1.1.0/lib.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+//The source code in this example is truncated - the full code can be obtained here: "https://cdn.jsdelivr.net/gh/PavelPlachky/HCLFormsJS@v1.1.0/lib.min.js"
+var HCLFormsJS=function(){let e={},t=function(e,t){for(var o=0;o<e.op...
+//# sourceMappingURL=/sm/7368fc2d2521a303dc8b0f03a17d50d0264da52582733d18666a862c58767a4f.map
+</script>
 
 <!-- Use Library -->
 <script>
@@ -133,7 +153,8 @@ HCLFormsJS.extend(
 </script>
 ```
 
-Usage on PathFactory
+### Use case 2: The code is loaded on the landing page which hosts the form
+This use case applies to usage on PathFactory. Here the library is loaded from GitHub using JSDeliver. In this case the library code should not be included in the form definition. 
 ```
 <!-- Global site tag (gtag.js) - Google Ads: 474961795 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-474961795"></script>
@@ -144,13 +165,14 @@ Usage on PathFactory
 
   gtag('config', 'AW-474961795');
 </script>
-<!-- Load version 1.0.0 of the library through JSDeliver -->
-<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/HCLFormsJS@v1.0.0/lib.min.js"></script>
+<!-- Load version 1.1.0 of the library through JSDeliver -->
+<script src="https://cdn.jsdelivr.net/gh/PavelPlachky/HCLFormsJS@v1.1.0/lib.min.js"></script>
 
 <!-- Use Library -->
 <script>
 HCLFormsJS.extend( 
   {
+    validateEmail:true,
     pathFactoryParams:{
       pfExternalId:"{{experience.external_id}}",
       pfTrackName:"{{experience.name}}",
