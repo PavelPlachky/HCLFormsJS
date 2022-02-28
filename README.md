@@ -143,16 +143,15 @@ var HCLFormsJS=function(){let e={},t=function(e,t){for(var o=0;o<e.op...
 
 <!-- Use Library -->
 <script>
-var hCLFormsJSOptions = {
+HCLFormsJS.extend( 
+  {
     validateEmail:true,
     disableReloadButton:true,
     setProductGroupFromURL:true,
     setUTMParamsFromURL:true,
-    setURLField:true,
+     setURLField:true,
     appendEmailToRedirectURL:true,
-  };
-
-HCLFormsJS.extend(hCLFormsJSOptions);
+ });
 </script>
 ```
 
