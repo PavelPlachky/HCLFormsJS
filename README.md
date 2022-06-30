@@ -93,6 +93,10 @@ An embedded JavaScript object that contains values provided by PathFactory when 
   - xhaul ---> HCL X-Haul
   - iTS ---> HCL IntelliService
   - wifi ---> HCL SMARTWiFi
+  - WFM ---> Blue Yonder WFM
+  - LMS ---> INFOR LMS
+  - XM ---> INFOR XM
+
 * Send conversion event to Google Tag Manager, label is second part of External ID
 * Invoke LinkedIn tracking pixel, conversion ID is 3rd part of External ID
 * Set PathFactory Track Name to PF Track Name field
