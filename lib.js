@@ -179,6 +179,9 @@ var HCLFormsJS = (function(){
             "xhaul":"HCL X-Haul",
             "iTS":"HCL IntelliService",
             "wifi":"HCL SMARTWiFi",
+            "WFM":"Blue Yonder WFM",
+            "LMS":"INFOR LMS",
+            "XM":"INFOR XM",		  
         };
         let externalIdArr = pfExternalId.split("|");
         for(index in pfIdLookup) {
